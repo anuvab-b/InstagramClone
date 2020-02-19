@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -15,7 +16,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.instagramclone.R;
 import com.example.instagramclone.Utils.BottomNavigationViewHelper;
+import com.example.instagramclone.Utils.GridImageAdapter;
+import com.example.instagramclone.Utils.UniversalImageLoader;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -25,18 +30,57 @@ public class ProfileActivity extends AppCompatActivity {
     private Context mContext = ProfileActivity.this;
 
     private ProgressBar mProgressBar;
+    private ImageView profilePhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         Log.d(TAG,"onCreate : started");
-        mProgressBar = findViewById(R.id.profileProgressBar);
-        mProgressBar.setVisibility(View.GONE);
 
         setupBottomNavigationView();
         setupToolBar();
+        setupActivityWidgets();
+        setProfileImage();
+
+        tempGridSetup();
     }
+
+    private void tempGridSetup(){
+        ArrayList<String> imgURLs = new ArrayList<>();
+        imgURLs.add("https://www.appliedis.com/wp-content/uploads/2013/11/android1.png");
+        imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
+        imgURLs.add("https://www.appliedis.com/wp-content/uploads/2013/11/android1.png");
+        imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
+        imgURLs.add("https://www.appliedis.com/wp-content/uploads/2013/11/android1.png");
+        imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
+        imgURLs.add("https://www.appliedis.com/wp-content/uploads/2013/11/android1.png");
+        imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
+
+        setUpImageGrid(imgURLs);
+
+    }
+
+    private void setUpImageGrid(ArrayList<String> imgURLs){
+        GridView gridView = findViewById(R.id.gridView);
+
+        GridImageAdapter adapter =new GridImageAdapter(mContext,R.layout.layout_grid_imageview,"",imgURLs);
+        gridView.setAdapter(adapter);
+    }
+
+    private void setProfileImage(){
+        Log.d(TAG, "setProfileImage: setting profile photo");
+
+        String imgURL="https://www.appliedis.com/wp-content/uploads/2013/11/android1.png";
+        UniversalImageLoader.setImage(imgURL,profilePhoto,mProgressBar,"");
+
+    }
+    private void setupActivityWidgets(){
+        mProgressBar = findViewById(R.id.profileProgressBar);
+        mProgressBar.setVisibility(View.GONE);
+        profilePhoto=findViewById(R.id.profile_photo);
+    }
+
     //Responsible for setting up Profile Toolbar
     private void setupToolBar(){
         Toolbar toolbar = findViewById(R.id.profileToolBar);

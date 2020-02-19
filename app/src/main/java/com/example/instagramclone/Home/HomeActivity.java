@@ -11,8 +11,11 @@ import android.view.MenuItem;
 
 import com.example.instagramclone.R;
 import com.example.instagramclone.Utils.BottomNavigationViewHelper;
+import com.example.instagramclone.Utils.SectionsPagerAdapter;
+import com.example.instagramclone.Utils.UniversalImageLoader;
 import com.google.android.material.tabs.TabLayout;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -26,9 +29,17 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Log.d(TAG,"onCreate : starting");
+        initImageLoader();
         setupBottomNavigationView();
         setupViewPager();
+
     }
+
+    private void initImageLoader(){
+        UniversalImageLoader universalImageLoader=new UniversalImageLoader(mContext);
+        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+    }
+
     //Responsible for adding the 3 tabs - Camera,Phone & Messages
     private void setupViewPager(){
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
