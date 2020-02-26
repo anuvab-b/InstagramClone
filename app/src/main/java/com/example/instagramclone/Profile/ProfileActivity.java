@@ -26,6 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "ProfileActivity";
     private static final int ACTIVITY_NUM = 4;
+    private static final int NUM_GRID_COLUMNS= 3;
 
     private Context mContext = ProfileActivity.this;
 
@@ -48,13 +49,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void tempGridSetup(){
         ArrayList<String> imgURLs = new ArrayList<>();
-        imgURLs.add("https://www.appliedis.com/wp-content/uploads/2013/11/android1.png");
+        //imgURLs.add("https://www.appliedis.com/wp-content/uploads/2013/11/android1.png");
         imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
-        imgURLs.add("https://www.appliedis.com/wp-content/uploads/2013/11/android1.png");
         imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
-        imgURLs.add("https://www.appliedis.com/wp-content/uploads/2013/11/android1.png");
         imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
-        imgURLs.add("https://www.appliedis.com/wp-content/uploads/2013/11/android1.png");
+        imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
+        imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
+        imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
+        imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
         imgURLs.add("https://previews.agefotostock.com/previewimage/medibigoff/b110f54e1d5c11031ef1a5de9c161fde/l30-499844.jpg");
 
         setUpImageGrid(imgURLs);
@@ -64,8 +66,13 @@ public class ProfileActivity extends AppCompatActivity {
     private void setUpImageGrid(ArrayList<String> imgURLs){
         GridView gridView = findViewById(R.id.gridView);
 
+        int gridWidth = getResources().getDisplayMetrics().widthPixels;
+        int imageWidth = gridWidth/NUM_GRID_COLUMNS;
+        gridView.setColumnWidth(imageWidth);
+
         GridImageAdapter adapter =new GridImageAdapter(mContext,R.layout.layout_grid_imageview,"",imgURLs);
         gridView.setAdapter(adapter);
+
     }
 
     private void setProfileImage(){
