@@ -14,7 +14,6 @@
         <activity android:name=".Home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -23,7 +22,8 @@
         <activity android:name=".Search.SearchActivity"></activity>
         <activity android:name=".Share.ShareActivity"></activity>
         <activity android:name=".Profile.AccountSettingsActivity"></activity>
-        <activity android:name=".Login.LoginActivity"></activity>
+        <activity android:name=".Login.LoginActivity">
+        </activity>
         <activity android:name=".Login.RegisterActivity"></activity>
     </application>
 

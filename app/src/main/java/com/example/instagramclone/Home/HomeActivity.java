@@ -1,16 +1,14 @@
 package com.example.instagramclone.Home;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
 import com.example.instagramclone.Login.LoginActivity;
 import com.example.instagramclone.R;
 import com.example.instagramclone.Utils.BottomNavigationViewHelper;
@@ -32,6 +30,8 @@ public class HomeActivity extends AppCompatActivity {
 
     //firebase
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,9 @@ public class HomeActivity extends AppCompatActivity {
         Log.d(TAG,"onCreate : starting");
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+
+
+        setupFirebaseAuth();
 
         initImageLoader();
         setupBottomNavigationView();
@@ -82,27 +85,61 @@ public class HomeActivity extends AppCompatActivity {
 
     }
     /*
-    * ------------------------------Firebase----------------------------------------
-    * */
+    ------------------------------------ Firebase ---------------------------------------------
+     */
+
+    /**
+     * checks to see if the @param 'user' is logged in
+     * @param user
+     */
+    private void checkCurrentUser(FirebaseUser user){
+        Log.d(TAG, "checkCurrentUser: checking if user is logged in.");
+
+        if(user == null){
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            startActivity(intent);
+        }
+    }
+    /**
+     * Setup the firebase auth object
+     */
+    private void setupFirebaseAuth(){
+        Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
+
+        mAuth = FirebaseAuth.getInstance();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                //check if the user is logged in
+                checkCurrentUser(user);
+
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+    }
+
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        mAuth.addAuthStateListener(mAuthListener);
+        checkCurrentUser(mAuth.getCurrentUser());
     }
 
-    //Change UI according to user data.
-    public void  updateUI(FirebaseUser account){
-        //checks to see if @param account is logged in
-        if(account != null){
-            Log.d(TAG, "updateUI: Currently Signed In");
-            //Toast.makeText(this,"You have signed in successfully",Toast.LENGTH_LONG).show();
-            //startActivity(new Intent(this,AnotherActivity.class));
-        }else {
-            Log.d(TAG, "updateUI: Not Signed In");
-            /*Toast.makeText(this,"Sign in failed", Toast.LENGTH_LONG).show();*/
-            startActivity(new Intent(mContext, LoginActivity.class));
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 }
