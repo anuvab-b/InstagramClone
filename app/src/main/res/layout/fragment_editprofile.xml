@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/rellayout1">
 
-            <include layout="@layout/snipper_top_editprofiletoolbar"/>
+            <include layout="@layout/snippet_top_editprofiletoolbar"/>
 
         </RelativeLayout>
 
