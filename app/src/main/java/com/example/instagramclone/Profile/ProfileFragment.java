@@ -18,8 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.widget.Toolbar;
-
-import com.example.instagramclone.Login.LoginActivity;
 import com.example.instagramclone.Models.User;
 import com.example.instagramclone.Models.UserAccountSettings;
 import com.example.instagramclone.Models.UserSettings;
